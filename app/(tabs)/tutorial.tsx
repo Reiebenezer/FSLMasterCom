@@ -54,7 +54,7 @@ export default function Tutorial() {
       <BackButton />
       <Text className="text-5xl font-poppins-bold text-primary">TUTORIAL</Text>
       <Text className="text-lg text-center mt-8 font-poppins">
-        Welcome to <Text className="inline font-poppins-bold">FSL MasterCom!</Text>
+        Welcome to <Text className="inline font-poppins-bold">ISATayo!</Text>
       </Text>
       <Text className="font-poppins text-center text-pretty mt-2 max-w-[80%]">This app will help you learn sign language in the easiest way!</Text>
 

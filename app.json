@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "FSLMasterCom",
-    "slug": "FSLMasterCom",
+    "name": "ISATayo",
+    "slug": "ISATayo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.jpeg",
-    "scheme": "fslmastercom",
+    "scheme": "isatayo",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -17,7 +17,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.Navarro.FSLMasterCom"
+      "package": "com.Navarro.ISATayo"
     },
     "web": {
       "bundler": "metro",

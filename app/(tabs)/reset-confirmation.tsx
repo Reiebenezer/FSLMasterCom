@@ -14,8 +14,8 @@ export default function ResetConfirmation() {
       <Text className="mt-4 font-poppins">This cannot be undone!</Text>
       <Text className="font-poppins">Are you sure you want to start over?</Text>
 
-      <Text className="mt-8 font-poppins">If you are sure, type 'FSL MasterCom Reset' below:</Text>
-      <TextInput className="border border-accent rounded-lg w-full max-w-sm mt-2 text-center font-gi" onChangeText={text => setAllowReset(text === 'FSL MasterCom Reset')} />
+      <Text className="mt-8 font-poppins">If you are sure, type 'ISATayo Reset' below:</Text>
+      <TextInput className="border border-accent rounded-lg w-full max-w-sm mt-2 text-center font-gi" onChangeText={text => setAllowReset(text === 'ISATayo Reset')} />
 
       <View className="flex-row gap-4 mt-4">
         <Button onPress={() => {context.resetLevelDatabase(); navigate('/', context)}} disabled={!allowReset}>

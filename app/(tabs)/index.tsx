@@ -39,7 +39,7 @@ export default function Index() {
     <View className="flex-grow items-center justify-center">
       <AvatarIcon className="absolute top-12 right-8" />
       <Text className="text-3xl mb-3 font-poppins">Welcome to</Text>
-      <Animated.Text className="text-4xl font-poppins-bold" style={colorStyle}>FSL MasterCom</Animated.Text>
+      <Animated.Text className="text-4xl font-poppins-bold" style={colorStyle}>ISATayo</Animated.Text>
 
       {isTutorial ? (
         <Button onPress={() => navigate('/tutorial', context)}>

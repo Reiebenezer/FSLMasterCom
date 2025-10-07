@@ -2,7 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "fslmastercom",
+      "name": "isatayo",
       "dependencies": {
         "@expo-google-fonts/poppins": "^0.4.0",
         "@expo/vector-icons": "^14.1.0",
