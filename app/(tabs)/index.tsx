@@ -1,75 +1,83 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import AvatarIcon from "@/components/AvatarIcon";
+import Button from "@/components/Button";
+import { useContext } from "@/components/LoadingProvider";
+import SlideModal from "@/components/SlideModal";
+import { navigate } from "@/scripts/navigation";
+import { Ionicons } from "@expo/vector-icons";
+import { Storage } from "expo-sqlite/kv-store";
+import { useEffect, useState } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import Animated, { interpolateColor, useAnimatedStyle } from 'react-native-reanimated';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+const COLORS = ["#9d2b2b", "#fd7f2e", '#2d79df', '#2efdea', '#FB4B4E', '#7C0B2B',];
 
-export default function HomeScreen() {
+export default function Index() {
+  const context = useContext();
+  const isTutorial = Storage.getItemSync("completedTutorial") !== 'true';
+
+  const [comingSoonModalVisible, setComingSoonModalVisible] = useState(false);
+  const [colorIndex, setColorIndex] = useState(0);
+  // const colorProgress = useDerivedValue(() => withTiming(colorIndex));
+
+  const colorStyle = useAnimatedStyle(() => ({
+    color: interpolateColor(
+      colorIndex,
+      [...COLORS.keys()],
+      COLORS
+    )
+  }));
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setColorIndex(prev => (prev + 1) % COLORS.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [])
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <View className="flex-grow items-center justify-center">
+      <AvatarIcon className="absolute top-12 right-8" />
+      <Text className="text-3xl mb-3 font-poppins">Welcome to</Text>
+      <Animated.Text className="text-4xl font-poppins-bold" style={colorStyle}>FSL MasterCom</Animated.Text>
+
+      {isTutorial ? (
+        <Button onPress={() => navigate('/tutorial', context)}>
+          <Text className="text-light-100 text-lg font-gi">
+            START TUTORIAL
+          </Text>
+        </Button>
+      ) : (
+        <View className="mt-32 gap-4 px-6">
+          <View className="flex-row gap-4 w-full">
+            <Button className="flex-grow rounded-2xl" colors={['#2d79df', '#2efdea']} onPress={() => navigate('/levels', context)}>
+              <Text className="font-gi text-xl text-light-100">LEARNING</Text>
+              <Text className="font-gi text-xl text-light-100">PART</Text>
+              <Ionicons name="book-outline" color="white" size={72} className="self-end mt-2" />
+            </Button>
+            <Button className="flex-grow rounded-2xl" onPress={() => setComingSoonModalVisible(true)}>
+              <Text className="font-gi text-xl text-light-100">TRANSLATING</Text>
+              <Text className="font-gi text-xl text-light-100">PART</Text>
+              <Ionicons name="camera-outline" color="white" size={72} className="self-end mt-2" />
+            </Button>
+          </View>
+
+          <Button className="rounded-full" onPress={() => navigate('/tutorial', context)}>
+            <Text className="text-light-100 font-gi text-center">TUTORIAL</Text>
+          </Button>
+
+          <TouchableOpacity onPress={() => navigate('/reset-confirmation', context)}>
+            <Text className="text-primary text-lg font-gi text-center">
+              RESET LEVELS
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
+      <SlideModal visible={comingSoonModalVisible} onClose={() => setComingSoonModalVisible(false)}>
+        <Text className="font-poppins-bold text-3xl mb-2 text-primary">Coming Soon!</Text>
+        <Text className="font-poppins">This feature is not yet available.</Text>
+      </SlideModal>
+      
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
